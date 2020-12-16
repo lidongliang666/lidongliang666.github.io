@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<div class="nav">
+    <img class="logo" src="images/logo.png">
+    <div class="time_num"></div>
+</div>
+<div id="banner" class="banner">
+    <div id="banner_bg" class="banner_bg"></div>
+    <!--标题背景-->
+    <div id="banner_info" class="banner_info"></div>
+    <!--标题-->
+    <ul style="display: none">
+        <li class="on">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+    </ul>
+    <div id="banner_list" class="banner_list">
+        <a>
+            <div class="img" data-text="无惧骇浪" style="background-image: url('images/1.PNG')"></div>
+        </a>
+        <a>
+            <div class="img" data-text="今日起航" style="background-image: url('images/2.JPG')"></div>
+        </a>
+        <a>
+            <div class="img" data-text="凛冬战场" style="background-image: url('images/3.PNG')"></div>
+        </a>
+        <a>
+            <div class="img" data-text="海权无畏" style="background-image: url('images/4.jpg')"></div>
+        </a>
+    </div>
+</div>
+<div class="img-list">
+    <div class="ul">
+        <div class="banner banner2">
+            <div class="banner_bg"></div>
+            <!--标题背景-->
+            <div class="banner_info"></div>
+            <!--标题-->
+            <ul>
+                <li class="on">1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+            </ul>
+            <div class="banner_list">
+                <a>
+                    <div class="img" style="background-image: url('images/list1.JPG')"></div>
+                </a>
+                <a>
+                    <div class="img" style="background-image: url('images/list2.JPG')"></div>
+                </a>
+                <a>
+                    <div class="img" style="background-image: url('images/list3.JPG')"></div>
+                </a>
+                <a>
+                    <div class="img" style="background-image: url('images/list4.jpg')"></div>
+                </a>
+            </div>
+        </div>
+        <ul>
+            <li class="li"><div class="img" style="background-image: url('images/list1.JPG')"></div></li>
+            <li class="li"><div class="img" style="background-image: url('images/list2.JPG')"></div></li>
+            <li class="li"><div class="img" style="background-image: url('images/list3.JPG')"></div></li>
+            <li class="li"><div class="img" style="background-image: url('images/list4.JPG')"></div></li>
+            <li class="li"><div class="img" style="background-image: url('images/list5.JPG')"></div></li>
+            <li class="li"><div class="img" style="background-image: url('images/list6.JPG')"></div></li>
+        </ul>
+    </div>
+    <div class="content-text">
+        <p>
+            大和号战列舰（日文：やまと，英文：Yamato），是第二次世界大战中日本海军建造的大和级战列舰一号舰。<br><br>
+            大和号战列舰是人类历史上最大的战列舰，曾号称“世界第一战列舰”、“日本的救星”。在沉没超过半世纪后，该舰仍然作为不少电影及动画的题材，继续深深地影响着日本人。<br><br>
+            大和号战列舰于1937年11月4日开始动工建造，1940年8月8日下水，1941年12月16日服役，1945年4月7日在冲绳岛战役中被美军飞机击沉于日本九州西南50海里处。
+        </p>
+    </div>
+</div>
+<script src="https://www.jq22.com/jquery/jquery-2.1.1.js"></script>
+<script type="text/javascript">
+    // 第一个
+    var t = n = 0, count;
+    $(document).ready(function () {
+        count = $("#banner_list a").length;
+        $("#banner_list a:not(:first-child)").hide();
+        var $info = $("#banner_info");
+        $info.html($("#banner_list a:first-child").find(".img").attr('data-text'));
+        $info.css("display", "none");
+        $info.fadeIn(1000);
+        $("#banner li").click(function () {
+            var i = $(this).text() - 1; //获取Li元素内的值，即1，2，3，4
+            n = i;
+            if (i >= count) return;
+            $info.html($("#banner_list a").eq(i).find(".img").attr('data-text'));
+            $info.css("display", "none");
+            $info.fadeIn(1000);
+            $("#banner_list a").filter(":visible").fadeOut(500).parent().children().eq(i).fadeIn(500);
+            $("#banner").css("background", "");
+            $(this).toggleClass("on");
+            $(this).siblings().removeAttr("class");
+        });
+        t = setInterval("showAuto()", 3000);
+        $("#banner").hover(function () {
+            clearInterval(t)
+        }, function () {
+            t = setInterval("showAuto()", 3000);
+        });
+    });
+
+    // 第二个
+    var count2;
+    $(document).ready(function () {
+        count2 = $(".banner2 .banner_list a").length;
+        $(".banner2 .banner_list a:not(:first-child)").hide();
+        $(".banner2 li").click(function () {
+            var i = $(this).text() - 1; //获取Li元素内的值，即1，2，3，4
+            if (i >= count2) return;
+            $(".banner2 .banner_list a").filter(":visible").fadeOut(500).parent().children().eq(i).fadeIn(500);
+            $(".banner2").css("background", "");
+            $(this).toggleClass("on");
+            $(this).siblings().removeAttr("class");
+        });
+    });
+
+    // 自动滚动
+    function showAuto() {
+        n = n >= (count - 1) ? 0 : ++n;
+        $("#banner li").eq(n).trigger('click');
+    }
+
+    // 数字时钟定时器
+
+    setInterval(function () {
+        $(".time_num").text(formatDate(new Date().getTime()));
+    }, 1000);
+
+    // 数字时钟
+    function formatDate (datetime) {
+        var cur = datetime ? new Date(datetime) : new Date(); // 获取时间
+        var strDate = cur.getFullYear() + "-"; // 获取当前年份
+        strDate += addZero(cur.getMonth() + 1) + "-"; // 获取当前月份
+        strDate += addZero(cur.getDate()) + " "; // 获取当前日期
+        strDate += addZero(cur.getHours()) + ":"; // 获取当前小时数
+        strDate += addZero(cur.getMinutes()) + ":"; // 获取当前分钟数
+        strDate += addZero(cur.getSeconds()); // 获取当前秒数
+        return strDate;
+    }
+    function addZero(res) {
+        // 判断参数是否小于10，若小于0，前面加上0字符串
+        if (res < 10) {
+            res = "0" + res;
+        }
+        return res;
+    }
+</script>
+</body>
+</html>
+
